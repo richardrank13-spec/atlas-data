@@ -518,8 +518,10 @@ def _binance_day(day, symbol="BTCUSDT"):
     return [dict({"t": h}, **{c: hourly[h][c] for c in BIN_COLS[1:]}) for h in sorted(hourly)]
 
 
-def binance_metrics(symbol="BTCUSDT"):
-    """Futures positioning snapshots from Binance public data (daily files), kept hourly."""
+def binance_metrics(symbol="BTCUSDT", start=None, per_run=60):
+    """Futures positioning snapshots from Binance public data (daily files), kept hourly.
+    start: the oldest day to backfill (default BIN_START); per_run: older days fetched per run."""
+    start = start or BIN_START
     s = symbol.lower()
     have_days = set()
     for f in os.listdir(os.path.dirname(path("binance/x"))):
@@ -528,10 +530,10 @@ def binance_metrics(symbol="BTCUSDT"):
                 have_days.add(dt.datetime.fromtimestamp(k, dt.timezone.utc).date())
     today = dt.datetime.fromtimestamp(NOW, dt.timezone.utc).date()
     want = [today - dt.timedelta(days=i) for i in (1, 2, 3)]
-    # backfill up to 60 older days per run
+    # backfill up to per_run older days per run
     oldest = min(have_days) if have_days else today
     d = oldest - dt.timedelta(days=1)
-    while len(want) < 63 and d >= BIN_START:
+    while len(want) < per_run + 3 and d >= start:
         if d not in have_days:
             want.append(d)
         d -= dt.timedelta(days=1)
@@ -550,6 +552,26 @@ def binance_metrics(symbol="BTCUSDT"):
     a, c = merge_yearly(f"binance/{s}_metrics_1h", out, BIN_COLS, key="t")
     days = sorted(have_days | {dt.datetime.fromtimestamp(r["t"], dt.timezone.utc).date() for r in out})
     return {"rows": len(out), "added": a, "first_day": days[0].isoformat() if days else None, "last_day": days[-1].isoformat() if days else None, "not_published": missing[:3]}
+
+
+# crowd pulse (Atlas page): positioning of the 13 other coins of the paper journal, a year of history
+METRIC_ALTS = ["SOLUSDT", "XRPUSDT", "DOGEUSDT", "BNBUSDT", "TRXUSDT", "ADAUSDT", "AVAXUSDT", "1000SHIBUSDT",
+               "LINKUSDT", "BCHUSDT", "DOTUSDT", "NEARUSDT", "LTCUSDT"]
+METRIC_ALTS_START = dt.date(2025, 9, 1)
+
+
+def binance_metrics_alts():
+    out = {}
+    for sym in METRIC_ALTS:
+        try:
+            r = binance_metrics(sym, start=METRIC_ALTS_START, per_run=120)
+            out[sym] = {"added": r["added"], "first_day": r["first_day"], "last_day": r["last_day"]}
+        except Exception as e:  # noqa: BLE001 - one coin must not stop the others
+            out[sym] = {"error": f"{type(e).__name__}: {e}"[:120]}
+    bad = [k for k, v in out.items() if "error" in v]
+    if len(bad) == len(METRIC_ALTS):
+        raise RuntimeError("all coins failed: " + out[bad[0]]["error"])
+    return {"coins": out, "failed": bad, "last_row": max((v.get("last_day") or "" for v in out.values()), default=None)}
 
 
 # ---------------------------------------------------------------- wave 2: more perpetuals
@@ -740,6 +762,7 @@ SOURCES = [
     ("okx_open_interest_1h", okx_open_interest),
     ("binance_metrics_1h", binance_metrics),
     ("binance_metrics_eth_1h", lambda: binance_metrics("ETHUSDT")),
+    ("binance_metrics_alts_1h", binance_metrics_alts),
     ("fear_greed_1d", fear_greed),
     ("yahoo_spx_1d", lambda: yahoo_daily("^GSPC", "spx")),
     ("yahoo_ndx_1d", lambda: yahoo_daily("^NDX", "ndx")),
