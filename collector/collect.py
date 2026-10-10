@@ -437,12 +437,12 @@ def deribit_dvol():
     return {"rows": len(out), "added": a, "first_row": iso(min(allrows)) if allrows else None, "last_row": iso(max(allrows)) if allrows else None}
 
 
-def okx_funding():
-    js = get("https://www.okx.com/api/v5/public/funding-rate-history?instId=BTC-USDT-SWAP&limit=100")
+def okx_funding(inst="BTC-USDT-SWAP", fn="okx/btc_usdt_swap_funding.csv"):
+    js = get(f"https://www.okx.com/api/v5/public/funding-rate-history?instId={inst}&limit=100")
     if js.get("code") != "0":
         raise RuntimeError(js.get("msg") or js.get("code"))
     out = [{"t": int(r["fundingTime"]) // 1000, "funding_rate": r["fundingRate"], "realized_rate": r.get("realizedRate", "")} for r in js["data"]]
-    a, c = merge(path("okx/btc_usdt_swap_funding.csv"), out, ["t", "funding_rate", "realized_rate"], "t")
+    a, c = merge(path(fn), out, ["t", "funding_rate", "realized_rate"], "t")
     return {"rows": len(out), "added": a, "last_row": iso(max(r["t"] for r in out)) if out else None}
 
 
@@ -460,8 +460,8 @@ BIN_COLS = ["t", "sum_open_interest", "sum_open_interest_value", "count_toptrade
 BIN_START = dt.date(2021, 12, 1)
 
 
-def _binance_day(day):
-    url = f"https://data.binance.vision/data/futures/um/daily/metrics/BTCUSDT/BTCUSDT-metrics-{day.isoformat()}.zip"
+def _binance_day(day, symbol="BTCUSDT"):
+    url = f"https://data.binance.vision/data/futures/um/daily/metrics/{symbol}/{symbol}-metrics-{day.isoformat()}.zip"
     try:
         blob = get(url, raw=True)
     except urllib.error.HTTPError as e:
@@ -478,19 +478,20 @@ def _binance_day(day):
     return [dict({"t": h}, **{c: hourly[h][c] for c in BIN_COLS[1:]}) for h in sorted(hourly)]
 
 
-def binance_metrics():
+def binance_metrics(symbol="BTCUSDT"):
     """Futures positioning snapshots from Binance public data (daily files), kept hourly."""
+    s = symbol.lower()
     have_days = set()
     for f in os.listdir(os.path.dirname(path("binance/x"))):
-        if f.startswith("btcusdt_metrics_1h_") and f.endswith(".csv"):
+        if f.startswith(f"{s}_metrics_1h_") and f.endswith(".csv"):
             for k in read_rows(os.path.join(os.path.dirname(path("binance/x")), f), "t"):
                 have_days.add(dt.datetime.fromtimestamp(k, dt.timezone.utc).date())
     today = dt.datetime.fromtimestamp(NOW, dt.timezone.utc).date()
     want = [today - dt.timedelta(days=i) for i in (1, 2, 3)]
-    # backfill up to 20 older days per run
+    # backfill up to 60 older days per run
     oldest = min(have_days) if have_days else today
     d = oldest - dt.timedelta(days=1)
-    while len(want) < 23 and d >= BIN_START:
+    while len(want) < 63 and d >= BIN_START:
         if d not in have_days:
             want.append(d)
         d -= dt.timedelta(days=1)
@@ -499,16 +500,138 @@ def binance_metrics():
     for day in want:
         if day in have_days and day < today - dt.timedelta(days=2):
             continue
-        rows = _binance_day(day)
+        rows = _binance_day(day, symbol)
         if rows is None:
             missing.append(day.isoformat())
             continue
         out += rows
     for r in out:
         r["open_time"] = r["t"]
-    a, c = merge_yearly("binance/btcusdt_metrics_1h", out, BIN_COLS, key="t")
+    a, c = merge_yearly(f"binance/{s}_metrics_1h", out, BIN_COLS, key="t")
     days = sorted(have_days | {dt.datetime.fromtimestamp(r["t"], dt.timezone.utc).date() for r in out})
     return {"rows": len(out), "added": a, "first_day": days[0].isoformat() if days else None, "last_day": days[-1].isoformat() if days else None, "not_published": missing[:3]}
+
+
+# ---------------------------------------------------------------- wave 2: more perpetuals
+# atlas-alerts research/2026-10-10_wave2_prereg.md fixed this list before any of its data was downloaded.
+UNIVERSE = ["BNBUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT", "TRXUSDT", "TONUSDT", "ADAUSDT", "AVAXUSDT",
+            "1000SHIBUSDT", "LINKUSDT", "BCHUSDT", "DOTUSDT", "NEARUSDT", "LTCUSDT"]
+UNIVERSE_START = dt.date(2019, 9, 1)
+UNIVERSE_BUDGET = 400  # archive files per run, shared by all coins; the first backfill spreads over a few runs
+
+
+def _months(a, b):
+    """First days of the months from a's month up to, not including, b's month."""
+    m = a.replace(day=1)
+    while (m.year, m.month) < (b.year, b.month):
+        yield m
+        m = (m.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
+
+
+def _rows_per_month(fns, key):
+    n = {}
+    for fn in fns:
+        for k in read_rows(fn, key):
+            t = dt.datetime.fromtimestamp(k, dt.timezone.utc)
+            n[(t.year, t.month)] = n.get((t.year, t.month), 0) + 1
+    return n
+
+
+def binance_um_universe():
+    """1h klines and funding of the wave-2 coins from the Binance public archive. Missing months come from monthly files
+    (a month counts as present when at most two days of its hours are absent); once a coin's months are complete, the
+    current month comes from daily files. Months the archive does not have (before a listing) are remembered and not
+    asked again, except last month, whose file may not be published yet: its days are taken instead."""
+    base = "https://data.binance.vision/data/futures/um"
+    mfn = path("binance/um_universe_missing.json")
+    missing = json.load(open(mfn)) if os.path.exists(mfn) else {}
+    today = dt.datetime.fromtimestamp(NOW, dt.timezone.utc).date()
+    first_this = today.replace(day=1)
+    first_prev = (first_this - dt.timedelta(days=1)).replace(day=1)
+    budget = UNIVERSE_BUDGET
+    report = {}
+    ddir = os.path.dirname(path("binance/x"))
+    for sym in UNIVERSE:
+        s = sym.lower()
+        prefix = f"binance/um_{s}_1h"
+        kmiss, fmiss = set(missing.get(sym, [])), set(missing.get(sym + "_funding", []))
+        kfiles = [os.path.join(ddir, f) for f in os.listdir(ddir) if f.startswith(f"um_{s}_1h_") and f.endswith(".csv")]
+        have = _rows_per_month(kfiles, "open_time")
+        out, days, pending, files = [], [], 0, 0
+        for m in _months(UNIVERSE_START, first_this):
+            key = f"{m.year}-{m.month:02d}"
+            nxt = (m.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
+            if have.get((m.year, m.month), 0) >= ((nxt - m).days - 2) * 24 or key in kmiss:
+                continue
+            if budget <= 0:
+                pending += 1
+                continue
+            rows = _um_klines_zip(f"{base}/monthly/klines/{sym}/1h/{sym}-1h-{key}.zip")
+            budget -= 1
+            files += 1
+            if rows is not None:
+                out += rows
+            elif m < first_prev:
+                kmiss.add(key)
+            else:
+                d = m
+                while d < first_this:
+                    days.append(d)
+                    d += dt.timedelta(days=1)
+        if pending == 0:
+            last = last_key(prefix)
+            d = first_this
+            if last is not None:
+                d = max(d, dt.datetime.fromtimestamp(last, dt.timezone.utc).date())
+            while d < today:
+                days.append(d)
+                d += dt.timedelta(days=1)
+        for d in days:
+            if budget <= 0:
+                pending += 1
+                break
+            rows = _um_klines_zip(f"{base}/daily/klines/{sym}/1h/{sym}-1h-{d.isoformat()}.zip")
+            budget -= 1
+            files += 1
+            if rows is not None:
+                out += rows
+        out = [r for r in out if r["open_time"] % 3600 == 0 and r["open_time"] + 3600 <= NOW - 60]
+        added = merge_yearly(prefix, out, UM_COLS)[0] if out else 0
+        ffn = path(f"binance/um_{s}_funding.csv")
+        fhave = set(_rows_per_month([ffn], "t"))
+        fout = []
+        for m in _months(UNIVERSE_START, first_this):
+            key = f"{m.year}-{m.month:02d}"
+            if (m.year, m.month) in fhave or key in fmiss:
+                continue
+            if budget <= 0:
+                pending += 1
+                continue
+            budget -= 1
+            files += 1
+            try:
+                blob = get(f"{base}/monthly/fundingRate/{sym}/{sym}-fundingRate-{key}.zip", raw=True, timeout=60)
+            except urllib.error.HTTPError as e:
+                if e.code != 404:
+                    raise
+                if m < first_prev:
+                    fmiss.add(key)
+                continue
+            z = zipfile.ZipFile(io.BytesIO(blob))
+            for r in csv.reader(io.StringIO(z.read(z.namelist()[0]).decode("utf-8"))):
+                if not r or not r[0].strip().isdigit():
+                    continue
+                fout.append({"t": _sec(r[0]), "rate": r[2] if len(r) > 2 else r[-1], "interval_h": r[1] if len(r) > 2 else ""})
+        fadded = merge(ffn, fout, FUND_COLS, "t")[0] if (fout or os.path.exists(ffn)) else 0
+        missing[sym], missing[sym + "_funding"] = sorted(kmiss), sorted(fmiss)
+        fk, lk = first_key(prefix), last_key(prefix)
+        report[sym] = {"added": added, "funding_added": fadded, "files": files, "pending": pending,
+                       "first_row": iso(fk) if fk else None, "last_row": iso(lk) if lk else None}
+    with open(mfn, "w") as f:
+        json.dump(missing, f, indent=1, sort_keys=True)
+    lasts = [v["last_row"] for v in report.values() if v["last_row"]]
+    return {"coins": report, "pending": sum(v["pending"] for v in report.values()), "budget_left": budget,
+            "last_row": min(lasts) if lasts else None}
 
 
 def fear_greed():
@@ -572,13 +695,16 @@ SOURCES = [
     ("deribit_funding_1h", deribit_funding),
     ("deribit_dvol_1h", deribit_dvol),
     ("okx_funding_8h", okx_funding),
+    ("okx_eth_funding_8h", lambda: okx_funding("ETH-USDT-SWAP", "okx/eth_usdt_swap_funding.csv")),
     ("okx_open_interest_1h", okx_open_interest),
     ("binance_metrics_1h", binance_metrics),
+    ("binance_metrics_eth_1h", lambda: binance_metrics("ETHUSDT")),
     ("fear_greed_1d", fear_greed),
     ("yahoo_spx_1d", lambda: yahoo_daily("^GSPC", "spx")),
     ("yahoo_ndx_1d", lambda: yahoo_daily("^NDX", "ndx")),
     ("yahoo_gold_1d", lambda: yahoo_daily("GC=F", "gold_futures")),
     ("fred_nasdaq100_1d", lambda: fred_daily("NASDAQ100", "nasdaq100")),
+    ("binance_um_universe_1h", binance_um_universe),  # last: its first backfill is the slowest
 ]
 
 
