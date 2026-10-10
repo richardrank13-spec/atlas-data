@@ -554,10 +554,11 @@ def binance_metrics(symbol="BTCUSDT", start=None, per_run=60):
     return {"rows": len(out), "added": a, "first_day": days[0].isoformat() if days else None, "last_day": days[-1].isoformat() if days else None, "not_published": missing[:3]}
 
 
-# crowd pulse (Atlas page): positioning of the 13 other coins of the paper journal, a year of history
+# crowd pulse (Atlas page) and later crowd research: positioning of the 13 other coins of the paper journal.
+# The backfill walks back from today, so the last year (the page's percentiles) is complete first.
 METRIC_ALTS = ["SOLUSDT", "XRPUSDT", "DOGEUSDT", "BNBUSDT", "TRXUSDT", "ADAUSDT", "AVAXUSDT", "1000SHIBUSDT",
                "LINKUSDT", "BCHUSDT", "DOTUSDT", "NEARUSDT", "LTCUSDT"]
-METRIC_ALTS_START = dt.date(2025, 9, 1)
+METRIC_ALTS_START = BIN_START  # 2021-12-01, the start of the Binance metrics archive
 
 
 def binance_metrics_alts():
