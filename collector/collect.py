@@ -326,6 +326,28 @@ def okx_candles(inst, prefix, backfill_to=None, calls=40):
             "last_row": iso(max(r["open_time"] for r in out)) if out else None}
 
 
+# the wave-2 coins on OKX swaps, for the live paper journal (TON is not in it: too little history for the test)
+OKX_ALTS = ["SOL", "XRP", "DOGE", "BNB", "TRX", "ADA", "AVAX", "SHIB", "LINK", "BCH", "DOT", "NEAR", "LTC"]
+
+
+def okx_alt_swaps():
+    """1h candles (history back to 2026-03-01, paged in over a few runs) and funding of the OKX USDT swaps of the
+    wave-2 coins. One coin failing never stops the others; the report says which failed."""
+    rep, bad = {}, {}
+    for c in OKX_ALTS:
+        inst = f"{c}-USDT-SWAP"
+        try:
+            r = okx_candles(inst, f"okx/{c.lower()}-usdt-swap_1h", backfill_to=dt.date(2026, 3, 1), calls=40)
+            f = okx_funding(inst, f"okx/{c.lower()}_usdt_swap_funding.csv")
+            rep[c] = {"first_row": r.get("first_row"), "last_row": r.get("last_row"), "history_pages": r.get("history_pages"), "funding_last": f.get("last_row")}
+        except Exception as e:  # noqa: BLE001
+            bad[c] = f"{type(e).__name__}: {e}"[:120]
+    lasts = [v["last_row"] for v in rep.values() if v.get("last_row")]
+    if not rep:
+        raise RuntimeError(f"all OKX alt swaps failed: {bad}")
+    return {"coins": rep, "failed": bad, "last_row": min(lasts) if lasts else None}
+
+
 # ---------------------------------------------------------------- Binance USD-M perpetuals (history for the trade systems)
 UM_COLS = ["open_time", "open", "high", "low", "close", "volume", "taker_buy_volume"]
 FUND_COLS = ["t", "rate", "interval_h"]
@@ -710,6 +732,7 @@ SOURCES = [
     ("binance_um_ethusdt_funding", lambda: binance_um_funding("ETHUSDT", dt.date(2019, 11, 1))),
     ("okx_btc_swap_1h", lambda: okx_candles("BTC-USDT-SWAP", "okx/btc-usdt-swap_1h", backfill_to=dt.date(2025, 1, 1))),
     ("okx_eth_swap_1h", lambda: okx_candles("ETH-USDT-SWAP", "okx/eth-usdt-swap_1h", backfill_to=dt.date(2025, 1, 1))),
+    ("okx_alt_swaps_1h", okx_alt_swaps),
     ("deribit_funding_1h", deribit_funding),
     ("deribit_dvol_1h", deribit_dvol),
     ("okx_funding_8h", okx_funding),
