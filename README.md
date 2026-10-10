@@ -8,8 +8,12 @@ Only raw exchange data lives here; no signals.
 | Path | What | Step | Source |
 | --- | --- | --- | --- |
 | `data/bitstamp/btcusd_1h_YYYY.csv` | BTC/USD candles, the engine's primary input | 1 hour | Bitstamp API; history before 2026-10-09 aggregated from Bitstamp 1-minute data |
-| `data/coinbase/{btc,eth,sol}-usd_1h_YYYY.csv` | cross-check and future assets | 1 hour | Coinbase Exchange API |
-| `data/kraken/xbtusd_1h_YYYY.csv` | cross-check | 1 hour | Kraken API |
+| `data/coinbase/btc-usd_1h_YYYY.csv` | BTC cross-check | 1 hour | Coinbase Exchange API |
+| `data/coinbase/{eth,sol}-usd_1h_YYYY.csv` | ETH and SOL, full history (ETH from 2016-05, SOL from 2021-06) | 1 hour | Coinbase Exchange API |
+| `data/kraken/{xbt,eth,sol}usd_1h_YYYY.csv` | cross-check (last 30 days kept growing) | 1 hour | Kraken API |
+| `data/binance/{bnb,paxg}usdt_1h_YYYY.csv` | BNB/USDT and PAXG/USDT (tokenised gold), full history | 1 hour | Binance public data archive and market-data API |
+| `data/okx/bnb-usdt_1h_YYYY.csv` | BNB cross-check | 1 hour | OKX API |
+| `data/tradfi/{yahoo,stooq}_*_1d.csv` | S&P 500, NASDAQ-100, gold: candidate sources for a later test | 1 day | Yahoo Finance chart API, Stooq |
 | `data/deribit/btc_funding_1h.csv` | BTC-PERPETUAL funding | 1 hour | Deribit API |
 | `data/deribit/btc_dvol_1h.csv` | DVOL implied-volatility index, back to 2021-03 | 1 hour | Deribit API |
 | `data/okx/btc_usdt_swap_funding.csv` | BTC-USDT-SWAP funding | 8 hours | OKX API |
