@@ -298,14 +298,32 @@ def fred_daily(series, name):
     return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
 
 
-def okx_candles(inst, prefix):
+def okx_candles(inst, prefix, backfill_to=None, calls=40):
+    """Closed 1h candles. With backfill_to (a date), older history is paged in from the history endpoint, at most
+    `calls` pages of 100 hours per run, until the stored history reaches that date."""
     js = get(f"https://www.okx.com/api/v5/market/candles?instId={inst}&bar=1H&limit=300")
     if js.get("code") != "0":
         raise RuntimeError(js.get("msg") or js.get("code"))
-    out = [{"open_time": int(r[0]) // 1000, "open": r[1], "high": r[2], "low": r[3], "close": r[4], "volume": r[5]}
-           for r in js["data"] if r[8] == "1" and int(r[0]) // 1000 + 3600 <= NOW - 60]
+    row = lambda r: {"open_time": int(r[0]) // 1000, "open": r[1], "high": r[2], "low": r[3], "close": r[4], "volume": r[5]}
+    out = [row(r) for r in js["data"] if r[8] == "1" and int(r[0]) // 1000 + 3600 <= NOW - 60]
+    back = 0
+    if backfill_to is not None:
+        goal = int(dt.datetime(backfill_to.year, backfill_to.month, backfill_to.day, tzinfo=dt.timezone.utc).timestamp())
+        first = first_key(prefix)
+        oldest = min([first] + [r["open_time"] for r in out]) if first else min((r["open_time"] for r in out), default=None)
+        while oldest is not None and oldest > goal and back < calls:
+            js = get(f"https://www.okx.com/api/v5/market/history-candles?instId={inst}&bar=1H&limit=100&after={oldest * 1000}")
+            back += 1
+            if js.get("code") != "0" or not js.get("data"):
+                break
+            rows = [row(r) for r in js["data"] if r[8] == "1"]
+            out += rows
+            oldest = min(r["open_time"] for r in rows) if rows else None
+            time.sleep(0.15)
     a, c = merge_yearly(prefix, out, OHLC)
-    return {"rows": len(out), "added": a, "overwritten": c, "last_row": iso(max(r["open_time"] for r in out)) if out else None}
+    fk = first_key(prefix)
+    return {"rows": len(out), "added": a, "overwritten": c, "history_pages": back, "first_row": iso(fk) if fk else None,
+            "last_row": iso(max(r["open_time"] for r in out)) if out else None}
 
 
 # ---------------------------------------------------------------- Binance USD-M perpetuals (history for the trade systems)
@@ -690,8 +708,8 @@ SOURCES = [
     ("binance_um_ethusdt_1h", lambda: binance_um("ETHUSDT", dt.date(2019, 11, 1))),
     ("binance_um_btcusdt_funding", lambda: binance_um_funding("BTCUSDT", dt.date(2019, 9, 1))),
     ("binance_um_ethusdt_funding", lambda: binance_um_funding("ETHUSDT", dt.date(2019, 11, 1))),
-    ("okx_btc_swap_1h", lambda: okx_candles("BTC-USDT-SWAP", "okx/btc-usdt-swap_1h")),
-    ("okx_eth_swap_1h", lambda: okx_candles("ETH-USDT-SWAP", "okx/eth-usdt-swap_1h")),
+    ("okx_btc_swap_1h", lambda: okx_candles("BTC-USDT-SWAP", "okx/btc-usdt-swap_1h", backfill_to=dt.date(2025, 1, 1))),
+    ("okx_eth_swap_1h", lambda: okx_candles("ETH-USDT-SWAP", "okx/eth-usdt-swap_1h", backfill_to=dt.date(2025, 1, 1))),
     ("deribit_funding_1h", deribit_funding),
     ("deribit_dvol_1h", deribit_dvol),
     ("okx_funding_8h", okx_funding),
