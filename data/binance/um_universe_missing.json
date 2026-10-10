@@ -1,0 +1,73 @@
+{
+ "1000SHIBUSDT": [],
+ "1000SHIBUSDT_funding": [],
+ "ADAUSDT": [],
+ "ADAUSDT_funding": [],
+ "AVAXUSDT": [],
+ "AVAXUSDT_funding": [],
+ "BCHUSDT": [],
+ "BCHUSDT_funding": [],
+ "BNBUSDT": [
+  "2019-09",
+  "2019-10",
+  "2019-11",
+  "2019-12",
+  "2020-01"
+ ],
+ "BNBUSDT_funding": [
+  "2019-09",
+  "2019-10",
+  "2019-11",
+  "2019-12",
+  "2020-01"
+ ],
+ "DOGEUSDT": [],
+ "DOGEUSDT_funding": [],
+ "DOTUSDT": [],
+ "DOTUSDT_funding": [],
+ "LINKUSDT": [],
+ "LINKUSDT_funding": [],
+ "LTCUSDT": [],
+ "LTCUSDT_funding": [],
+ "NEARUSDT": [],
+ "NEARUSDT_funding": [],
+ "SOLUSDT": [
+  "2019-09",
+  "2019-10",
+  "2019-11",
+  "2019-12",
+  "2020-01",
+  "2020-02",
+  "2020-03",
+  "2020-04",
+  "2020-05",
+  "2020-06",
+  "2020-07",
+  "2020-08"
+ ],
+ "SOLUSDT_funding": [
+  "2019-09",
+  "2019-10",
+  "2019-11",
+  "2019-12",
+  "2020-01",
+  "2020-02",
+  "2020-03",
+  "2020-04",
+  "2020-05",
+  "2020-06",
+  "2020-07",
+  "2020-08"
+ ],
+ "TONUSDT": [],
+ "TONUSDT_funding": [],
+ "TRXUSDT": [],
+ "TRXUSDT_funding": [],
+ "XRPUSDT": [
+  "2019-09",
+  "2019-10",
+  "2019-11",
+  "2019-12"
+ ],
+ "XRPUSDT_funding": []
+}
