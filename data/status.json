@@ -18,32 +18,32 @@
    "added": 480,
    "error": null,
    "fails_in_row": 0,
-   "first_day": "2026-08-11",
+   "first_day": "2026-07-22",
    "last_day": "2026-10-08",
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "not_published": [
     "2026-10-09"
    ],
    "ok": true,
    "rows": 504,
-   "sec": 6.4
+   "sec": 16.5
   },
   "bitstamp_btcusd_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": null,
    "ok": true,
    "overwritten": 0,
    "rows": 0,
-   "sec": 0.5
+   "sec": 0.7
   },
   "coinbase_btcusd_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T04:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -54,7 +54,7 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T04:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -65,7 +65,7 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T04:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -76,28 +76,28 @@
    "added": 8000,
    "error": null,
    "fails_in_row": 0,
-   "first_row": "2024-12-09T13:00:00Z",
-   "last_ok": "2026-10-10T05:37:20Z",
+   "first_row": "2024-01-11T05:00:00Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T04:00:00Z",
    "ok": true,
    "rows": 8072,
-   "sec": 2.8
+   "sec": 2.4
   },
   "deribit_funding_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T05:00:00Z",
    "ok": true,
    "rows": 72,
-   "sec": 0.2
+   "sec": 0.3
   },
   "fear_greed_1d": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T00:00:00Z",
    "ok": true,
    "rows": 3170,
@@ -107,33 +107,33 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T04:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 720,
-   "sec": 0.3
+   "sec": 0.1
   },
   "okx_funding_8h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T00:00:00Z",
    "ok": true,
    "rows": 100,
-   "sec": 0.3
+   "sec": 0.2
   },
   "okx_open_interest_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-10T05:37:20Z",
+   "last_ok": "2026-10-10T05:47:25Z",
    "last_row": "2026-10-10T04:00:00Z",
    "ok": true,
    "rows": 719,
    "sec": 0.4
   }
  },
- "updated": "2026-10-10T05:37:20Z"
+ "updated": "2026-10-10T05:47:25Z"
 }
