@@ -169,7 +169,7 @@ def deribit_dvol():
     # backfill a few pages of older history per run, until the first DVOL day
     oldest = min(have) if have else None
     pages = 0
-    while oldest and oldest > DVOL_START and pages < 8:
+    while oldest and oldest > DVOL_START and pages < 40:
         js = get(f"https://www.deribit.com/api/v2/public/get_volatility_index_data?currency=BTC&resolution=3600&start_timestamp={(oldest - 1000 * 3600) * 1000}&end_timestamp={(oldest - 3600) * 1000}")
         page = [{"t": int(r[0]) // 1000, "open": r[1], "high": r[2], "low": r[3], "close": r[4]} for r in js["result"]["data"]]
         if not page:
