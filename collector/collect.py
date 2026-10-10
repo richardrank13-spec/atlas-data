@@ -298,6 +298,106 @@ def fred_daily(series, name):
     return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
 
 
+def okx_candles(inst, prefix):
+    js = get(f"https://www.okx.com/api/v5/market/candles?instId={inst}&bar=1H&limit=300")
+    if js.get("code") != "0":
+        raise RuntimeError(js.get("msg") or js.get("code"))
+    out = [{"open_time": int(r[0]) // 1000, "open": r[1], "high": r[2], "low": r[3], "close": r[4], "volume": r[5]}
+           for r in js["data"] if r[8] == "1" and int(r[0]) // 1000 + 3600 <= NOW - 60]
+    a, c = merge_yearly(prefix, out, OHLC)
+    return {"rows": len(out), "added": a, "overwritten": c, "last_row": iso(max(r["open_time"] for r in out)) if out else None}
+
+
+# ---------------------------------------------------------------- Binance USD-M perpetuals (history for the trade systems)
+UM_COLS = ["open_time", "open", "high", "low", "close", "volume", "taker_buy_volume"]
+FUND_COLS = ["t", "rate", "interval_h"]
+
+
+def _um_klines_zip(url):
+    try:
+        blob = get(url, raw=True, timeout=60)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return None
+        raise
+    z = zipfile.ZipFile(io.BytesIO(blob))
+    out = []
+    for r in csv.reader(io.StringIO(z.read(z.namelist()[0]).decode("utf-8"))):
+        if not r or not r[0].strip().isdigit():
+            continue  # header line
+        out.append({"open_time": _sec(r[0]), "open": r[1], "high": r[2], "low": r[3], "close": r[4], "volume": r[5],
+                    "taker_buy_volume": r[9] if len(r) > 9 else ""})
+    return out
+
+
+def binance_um(symbol, start_month):
+    """Perpetual 1h klines from the Binance public archive: every monthly file once, then daily files."""
+    base = "https://data.binance.vision/data/futures/um"
+    prefix = f"binance/um_{symbol.lower()}_1h"
+    last = last_key(prefix)
+    today = dt.datetime.fromtimestamp(NOW, dt.timezone.utc).date()
+    out, files, missing = [], 0, []
+    if last is None:
+        m = start_month
+        while (m.year, m.month) < (today.year, today.month):
+            rows = _um_klines_zip(f"{base}/monthly/klines/{symbol}/1h/{symbol}-1h-{m.year}-{m.month:02d}.zip")
+            files += 1
+            if rows is None:
+                missing.append(f"{m.year}-{m.month:02d}")
+            else:
+                out += rows
+            m = (m.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
+        d = today.replace(day=1)
+    else:
+        d = dt.datetime.fromtimestamp(last, dt.timezone.utc).date() - dt.timedelta(days=1)
+    while d < today and files < 200:
+        rows = _um_klines_zip(f"{base}/daily/klines/{symbol}/1h/{symbol}-1h-{d.isoformat()}.zip")
+        files += 1
+        if rows is None:
+            missing.append(d.isoformat())
+        else:
+            out += rows
+        d += dt.timedelta(days=1)
+    out = [r for r in out if r["open_time"] % 3600 == 0 and r["open_time"] + 3600 <= NOW - 60]
+    a, c = merge_yearly(prefix, out, UM_COLS)
+    fk, lk = first_key(prefix), last_key(prefix)
+    return {"rows": len(out), "added": a, "files": files, "not_published": missing[-3:], "missing_n": len(missing),
+            "first_row": iso(fk) if fk else None, "last_row": iso(lk) if lk else None}
+
+
+def binance_um_funding(symbol, start_month):
+    """Funding rate history (monthly archive files; the current month arrives after it ends)."""
+    base = "https://data.binance.vision/data/futures/um/monthly/fundingRate"
+    fn = path(f"binance/um_{symbol.lower()}_funding.csv")
+    have = read_rows(fn, "t")
+    months = {dt.datetime.fromtimestamp(k, dt.timezone.utc).strftime("%Y-%m") for k in have}
+    today = dt.datetime.fromtimestamp(NOW, dt.timezone.utc).date()
+    out, files, missing = [], 0, []
+    m = start_month
+    newest = None
+    while (m.year, m.month) < (today.year, today.month):
+        key = f"{m.year}-{m.month:02d}"
+        newest = key
+        if key not in months:
+            try:
+                blob = get(f"{base}/{symbol}/{symbol}-fundingRate-{key}.zip", raw=True, timeout=60)
+                z = zipfile.ZipFile(io.BytesIO(blob))
+                for r in csv.reader(io.StringIO(z.read(z.namelist()[0]).decode("utf-8"))):
+                    if not r or not r[0].strip().isdigit():
+                        continue
+                    out.append({"t": _sec(r[0]), "rate": r[2] if len(r) > 2 else r[-1], "interval_h": r[1] if len(r) > 2 else ""})
+            except urllib.error.HTTPError as e:
+                if e.code != 404:
+                    raise
+                missing.append(key)
+            files += 1
+        m = (m.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
+    a, c = merge(fn, out, FUND_COLS, "t")
+    allr = read_rows(fn, "t")
+    return {"rows": len(out), "added": a, "files": files, "missing_n": len(missing), "missing": missing[-3:], "newest_month": newest,
+            "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
+
+
 # ---------------------------------------------------------------- derivatives and sentiment
 def deribit_funding():
     end = NOW * 1000
@@ -463,6 +563,12 @@ SOURCES = [
     ("binance_bnbusdt_1h", lambda: binance_spot("BNBUSDT", dt.date(2017, 11, 1))),
     ("binance_paxgusdt_1h", lambda: binance_spot("PAXGUSDT", dt.date(2019, 9, 1))),
     ("okx_bnbusdt_1h", lambda: okx_candles("BNB-USDT", "okx/bnb-usdt_1h")),
+    ("binance_um_btcusdt_1h", lambda: binance_um("BTCUSDT", dt.date(2019, 9, 1))),
+    ("binance_um_ethusdt_1h", lambda: binance_um("ETHUSDT", dt.date(2019, 11, 1))),
+    ("binance_um_btcusdt_funding", lambda: binance_um_funding("BTCUSDT", dt.date(2019, 9, 1))),
+    ("binance_um_ethusdt_funding", lambda: binance_um_funding("ETHUSDT", dt.date(2019, 11, 1))),
+    ("okx_btc_swap_1h", lambda: okx_candles("BTC-USDT-SWAP", "okx/btc-usdt-swap_1h")),
+    ("okx_eth_swap_1h", lambda: okx_candles("ETH-USDT-SWAP", "okx/eth-usdt-swap_1h")),
     ("deribit_funding_1h", deribit_funding),
     ("deribit_dvol_1h", deribit_dvol),
     ("okx_funding_8h", okx_funding),
