@@ -241,6 +241,7 @@ def binance_metrics():
             want.append(d)
         d -= dt.timedelta(days=1)
     out, missing = [], []
+    want = sorted(set(want), reverse=True)
     for day in want:
         if day in have_days and day < today - dt.timedelta(days=2):
             continue
