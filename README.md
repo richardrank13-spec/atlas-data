@@ -13,7 +13,7 @@ Only raw exchange data lives here; no signals.
 | `data/kraken/{xbt,eth,sol}usd_1h_YYYY.csv` | cross-check (last 30 days kept growing) | 1 hour | Kraken API |
 | `data/binance/{bnb,paxg}usdt_1h_YYYY.csv` | BNB/USDT and PAXG/USDT (tokenised gold), full history | 1 hour | Binance public data archive and market-data API |
 | `data/okx/bnb-usdt_1h_YYYY.csv` | BNB cross-check | 1 hour | OKX API |
-| `data/tradfi/{yahoo,stooq}_*_1d.csv` | S&P 500, NASDAQ-100, gold: candidate sources for a later test | 1 day | Yahoo Finance chart API, Stooq |
+| `data/tradfi/yahoo_{spx,ndx,gold_futures}_1d.csv`, `fred_nasdaq100_1d.csv` | S&P 500, NASDAQ-100, gold futures: candidates for a later test | 1 day | Yahoo Finance chart API; FRED as a cross-check |
 | `data/deribit/btc_funding_1h.csv` | BTC-PERPETUAL funding | 1 hour | Deribit API |
 | `data/deribit/btc_dvol_1h.csv` | DVOL implied-volatility index, back to 2021-03 | 1 hour | Deribit API |
 | `data/okx/btc_usdt_swap_funding.csv` | BTC-USDT-SWAP funding | 8 hours | OKX API |

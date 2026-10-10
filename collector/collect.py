@@ -258,8 +258,9 @@ def _keep_closed(rows):
 
 def yahoo_daily(symbol, name):
     fn = path(f"tradfi/yahoo_{name}_1d.csv")
-    rng = "1mo" if read_rows(fn, "t") else "max"
-    js = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range={rng}&interval=1d")
+    have = read_rows(fn, "t")
+    p1 = (max(have) - 40 * 86400) if have else 0  # range=max silently returns monthly bars; explicit periods keep daily
+    js = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?period1={p1}&period2={NOW}&interval=1d")
     res = js["chart"]["result"][0]
     off = int(res["meta"].get("gmtoffset", 0))
     q = res["indicators"]["quote"][0]
@@ -276,32 +277,25 @@ def yahoo_daily(symbol, name):
     return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
 
 
-def stooq_daily(symbol, name):
-    fn = path(f"tradfi/stooq_{name}_1d.csv")
-    have = read_rows(fn, "t")
-    q = f"&d1={(dt.datetime.fromtimestamp(NOW, dt.timezone.utc) - dt.timedelta(days=40)).strftime('%Y%m%d')}" if have else ""
-    text = get(f"https://stooq.com/q/d/l/?s={urllib.parse.quote(symbol)}&i=d{q}", raw=True).decode("utf-8", "replace")
-    if not text.startswith("Date"):
+def fred_daily(series, name):
+    """FRED close-only series (cross-check for the Yahoo index data)."""
+    fn = path(f"tradfi/fred_{name}_1d.csv")
+    text = get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}", raw=True).decode("utf-8", "replace")
+    lines = text.strip().splitlines()
+    if not lines or "," not in lines[0]:
         raise RuntimeError(text.strip()[:120] or "empty response")
     out = []
-    for r in csv.DictReader(io.StringIO(text)):
-        d = dt.date.fromisoformat(r["Date"])
+    for r in lines[1:]:
+        day, val = r.split(",")[:2]
+        if val in ("", "."):
+            continue
+        d = dt.date.fromisoformat(day)
         t = int(dt.datetime(d.year, d.month, d.day, tzinfo=dt.timezone.utc).timestamp())
-        out.append({"t": t, "open": r["Open"], "high": r["High"], "low": r["Low"], "close": r["Close"], "volume": r.get("Volume") or 0})
+        out.append({"t": t, "close": val})
     out = _keep_closed(out)
-    a, c = merge(fn, out, DAILY, "t")
+    a, c = merge(fn, out, ["t", "close"], "t")
     allr = read_rows(fn, "t")
     return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
-
-
-def okx_candles(inst, prefix):
-    js = get(f"https://www.okx.com/api/v5/market/candles?instId={inst}&bar=1H&limit=300")
-    if js.get("code") != "0":
-        raise RuntimeError(js.get("msg") or js.get("code"))
-    out = [{"open_time": int(r[0]) // 1000, "open": r[1], "high": r[2], "low": r[3], "close": r[4], "volume": r[5]}
-           for r in js["data"] if r[8] == "1" and int(r[0]) // 1000 + 3600 <= NOW - 60]
-    a, c = merge_yearly(prefix, out, OHLC)
-    return {"rows": len(out), "added": a, "overwritten": c, "last_row": iso(max(r["open_time"] for r in out)) if out else None}
 
 
 # ---------------------------------------------------------------- derivatives and sentiment
@@ -478,9 +472,7 @@ SOURCES = [
     ("yahoo_spx_1d", lambda: yahoo_daily("^GSPC", "spx")),
     ("yahoo_ndx_1d", lambda: yahoo_daily("^NDX", "ndx")),
     ("yahoo_gold_1d", lambda: yahoo_daily("GC=F", "gold_futures")),
-    ("stooq_spx_1d", lambda: stooq_daily("^spx", "spx")),
-    ("stooq_ndx_1d", lambda: stooq_daily("^ndx", "ndx")),
-    ("stooq_xauusd_1d", lambda: stooq_daily("xauusd", "xauusd")),
+    ("fred_nasdaq100_1d", lambda: fred_daily("NASDAQ100", "nasdaq100")),
 ]
 
 
