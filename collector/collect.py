@@ -535,7 +535,7 @@ def binance_metrics(symbol="BTCUSDT"):
 UNIVERSE = ["BNBUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT", "TRXUSDT", "TONUSDT", "ADAUSDT", "AVAXUSDT",
             "1000SHIBUSDT", "LINKUSDT", "BCHUSDT", "DOTUSDT", "NEARUSDT", "LTCUSDT"]
 UNIVERSE_START = dt.date(2019, 9, 1)
-UNIVERSE_BUDGET = 400  # archive files per run, shared by all coins; the first backfill spreads over a few runs
+UNIVERSE_BUDGET = 1200  # archive files per run, shared by all coins; the first backfill spreads over a few runs
 
 
 def _months(a, b):
