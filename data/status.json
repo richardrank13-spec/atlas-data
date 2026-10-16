@@ -12,7 +12,7 @@
    "eth": {
     "kraken": {
      "max_bps": 4.03,
-     "median_bps": 0.73,
+     "median_bps": 0.78,
      "overlap": 47
     },
     "primary_rows": 47
@@ -21,7 +21,7 @@
   "bitstamp_rows": 47,
   "coinbase": {
    "max_bps": 2.56,
-   "median_bps": 0.78,
+   "median_bps": 0.74,
    "overlap": 47
   },
   "hours": 48,
@@ -33,20 +33,20 @@
  },
  "sources": {
   "binance_bnbusdt_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
    "files": 1,
    "first_row": "2017-11-06T03:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "live": "data-api.binance.vision",
    "missing_n": 0,
    "not_published": [],
    "ok": true,
    "overwritten": 0,
    "rows": 95,
-   "sec": 0.7
+   "sec": 1.0
   },
   "binance_metrics_1h": {
    "added": 0,
@@ -54,11 +54,11 @@
    "fails_in_row": 0,
    "first_day": "2021-12-01",
    "last_day": "2026-10-15",
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "not_published": [],
    "ok": true,
    "rows": 48,
-   "sec": 0.9
+   "sec": 0.6
   },
   "binance_metrics_alts_1h": {
    "coins": {
@@ -71,7 +71,7 @@
    "error": null,
    "failed": [],
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-15",
    "ok": true,
    "sec": 0.8
@@ -82,11 +82,11 @@
    "fails_in_row": 0,
    "first_day": "2021-12-01",
    "last_day": "2026-10-15",
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "not_published": [],
    "ok": true,
    "rows": 48,
-   "sec": 0.9
+   "sec": 0.6
   },
   "binance_um_btcusdt_1h": {
    "added": 0,
@@ -94,13 +94,13 @@
    "fails_in_row": 0,
    "files": 2,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-15T23:00:00Z",
    "missing_n": 0,
    "not_published": [],
    "ok": true,
    "rows": 48,
-   "sec": 0.7
+   "sec": 0.8
   },
   "binance_um_btcusdt_funding": {
    "added": 0,
@@ -108,7 +108,7 @@
    "fails_in_row": 0,
    "files": 4,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-09-30T16:00:00Z",
    "missing": [
     "2019-10",
@@ -119,7 +119,7 @@
    "newest_month": "2026-09",
    "ok": true,
    "rows": 0,
-   "sec": 1.3
+   "sec": 0.8
   },
   "binance_um_ethusdt_1h": {
    "added": 0,
@@ -127,13 +127,13 @@
    "fails_in_row": 0,
    "files": 2,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-15T23:00:00Z",
    "missing_n": 0,
    "not_published": [],
    "ok": true,
    "rows": 48,
-   "sec": 0.9
+   "sec": 0.6
   },
   "binance_um_ethusdt_funding": {
    "added": 0,
@@ -141,7 +141,7 @@
    "fails_in_row": 0,
    "files": 2,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-09-30T16:00:00Z",
    "missing": [
     "2019-11",
@@ -151,7 +151,7 @@
    "newest_month": "2026-09",
    "ok": true,
    "rows": 0,
-   "sec": 0.6
+   "sec": 0.7
   },
   "binance_um_universe_1h": {
    "budget_left": 1198,
@@ -167,129 +167,129 @@
    },
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-15T23:00:00Z",
    "ok": true,
    "pending": 0,
-   "sec": 1.4
-  },
-  "bitstamp_btcusd_1h": {
-   "added": 0,
-   "error": null,
-   "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": null,
-   "ok": true,
-   "overwritten": 0,
-   "rows": 0,
    "sec": 0.9
   },
+  "bitstamp_btcusd_1h": {
+   "added": 1,
+   "error": null,
+   "fails_in_row": 0,
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
+   "ok": true,
+   "overwritten": 0,
+   "rows": 1,
+   "sec": 0.2
+  },
   "coinbase_btcusd_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2026-09-25T15:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 349,
    "sec": 0.1
   },
   "coinbase_ethusd_1h": {
-   "added": 0,
+   "added": 1,
    "backfill_pages": 2,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2016-05-18T00:00:00Z",
    "history_done": true,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 349,
-   "sec": 0.8
+   "sec": 0.5
   },
   "deribit_dvol_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2021-03-24T00:00:00Z",
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "rows": 72,
    "sec": 0.6
   },
   "deribit_funding_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T19:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T20:00:00Z",
    "ok": true,
    "rows": 72,
-   "sec": 0.3
+   "sec": 0.5
   },
   "fear_greed_1d": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-16T00:00:00Z",
    "ok": true,
    "rows": 3176,
-   "sec": 0.8
+   "sec": 0.2
   },
   "hyperliquid_candles": {
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
-   "sec": 0.1,
+   "sec": 7.6,
    "series": {
     "BNB_1h": {
-     "added": 0,
+     "added": 1,
      "first_row": "2026-03-22T06:00:00Z",
-     "last_row": "2026-10-16T18:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T19:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "BNB_4h": {
-     "added": 0,
+     "added": 1,
      "first_row": "2024-07-05T08:00:00Z",
-     "last_row": "2026-10-16T12:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T16:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "BTC_1h": {
-     "added": 0,
+     "added": 1,
      "first_row": "2026-03-22T06:00:00Z",
-     "last_row": "2026-10-16T18:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T19:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "BTC_4h": {
-     "added": 0,
+     "added": 1,
      "first_row": "2024-07-05T08:00:00Z",
-     "last_row": "2026-10-16T12:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T16:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "ETH_1h": {
-     "added": 0,
+     "added": 1,
      "first_row": "2026-03-22T06:00:00Z",
-     "last_row": "2026-10-16T18:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T19:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "ETH_4h": {
-     "added": 0,
+     "added": 1,
      "first_row": "2024-07-05T08:00:00Z",
-     "last_row": "2026-10-16T12:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T16:00:00Z",
+     "pages": 1,
      "rate_limited": false
     }
    }
@@ -297,56 +297,56 @@
   "hyperliquid_funding": {
    "coins": {
     "BNB": {
-     "added": 0,
+     "added": 1,
      "first_row": "2023-05-12T00:00:00Z",
-     "last_row": "2026-10-16T19:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T20:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "BTC": {
-     "added": 0,
+     "added": 1,
      "first_row": "2023-05-12T00:00:00Z",
-     "last_row": "2026-10-16T19:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T20:00:00Z",
+     "pages": 1,
      "rate_limited": false
     },
     "ETH": {
-     "added": 0,
+     "added": 1,
      "first_row": "2023-05-12T00:00:00Z",
-     "last_row": "2026-10-16T19:00:00Z",
-     "pages": 0,
+     "last_row": "2026-10-16T20:00:00Z",
+     "pages": 1,
      "rate_limited": false
     }
    },
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T19:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T20:00:00Z",
    "ok": true,
-   "sec": 0.3
+   "sec": 4.3
   },
   "kraken_ethusd_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 720,
-   "sec": 0.2
+   "sec": 0.0
   },
   "kraken_xbtusd_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 720,
-   "sec": 0.3
+   "sec": 0.1
   },
   "okx_alt_swaps_1h": {
    "coins": {
@@ -354,86 +354,86 @@
      "first_row": "2026-02-27T17:00:00Z",
      "funding_last": "2026-10-16T16:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T18:00:00Z"
+     "last_row": "2026-10-16T19:00:00Z"
     }
    },
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "sec": 0.4
   },
   "okx_bnbusdt_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2026-09-27T21:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
-   "sec": 0.2
+   "sec": 0.3
   },
   "okx_btc_swap_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2024-12-29T15:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
-   "sec": 0.2
+   "sec": 0.3
   },
   "okx_eth_funding_8h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-16T16:00:00Z",
    "ok": true,
    "rows": 100,
    "sec": 0.2
   },
   "okx_eth_swap_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2024-12-29T15:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
-   "sec": 0.2
+   "sec": 0.3
   },
   "okx_funding_8h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
+   "last_ok": "2026-10-16T20:27:54Z",
    "last_row": "2026-10-16T16:00:00Z",
    "ok": true,
    "rows": 100,
    "sec": 0.2
   },
   "okx_open_interest_1h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T19:56:55Z",
-   "last_row": "2026-10-16T18:00:00Z",
+   "last_ok": "2026-10-16T20:27:54Z",
+   "last_row": "2026-10-16T19:00:00Z",
    "ok": true,
    "rows": 719,
    "sec": 0.2
   }
  },
- "updated": "2026-10-16T19:56:55Z"
+ "updated": "2026-10-16T20:27:54Z"
 }
