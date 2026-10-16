@@ -35,7 +35,7 @@
   "hours": 48,
   "kraken": {
    "max_bps": 2.09,
-   "median_bps": 0.41,
+   "median_bps": 0.46,
    "overlap": 47
   }
  },
@@ -46,23 +46,23 @@
    "fails_in_row": 0,
    "files": 1,
    "first_row": "2017-11-06T03:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "live": "data-api.binance.vision",
    "missing_n": 0,
    "not_published": [],
    "ok": true,
    "overwritten": 0,
    "rows": 95,
-   "sec": 1.0
+   "sec": 0.9
   },
   "binance_metrics_1h": {
-   "added": 24,
+   "added": 0,
    "error": null,
    "fails_in_row": 0,
    "first_day": "2021-12-01",
    "last_day": "2026-10-15",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "not_published": [],
    "ok": true,
    "rows": 48,
@@ -71,67 +71,67 @@
   "binance_metrics_alts_1h": {
    "coins": {
     "1000SHIBUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "ADAUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "AVAXUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "BCHUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "BNBUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "DOGEUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "DOTUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "LINKUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "LTCUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "NEARUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "SOLUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "TRXUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     },
     "XRPUSDT": {
-     "added": 24,
+     "added": 0,
      "first_day": "2021-12-01",
      "last_day": "2026-10-15"
     }
@@ -139,18 +139,18 @@
    "error": null,
    "failed": [],
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-15",
    "ok": true,
-   "sec": 9.6
+   "sec": 8.3
   },
   "binance_metrics_eth_1h": {
-   "added": 24,
+   "added": 0,
    "error": null,
    "fails_in_row": 0,
    "first_day": "2021-12-01",
    "last_day": "2026-10-15",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "not_published": [],
    "ok": true,
    "rows": 48,
@@ -162,31 +162,29 @@
    "fails_in_row": 0,
    "files": 1,
    "first_row": "2020-08-28T12:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "live": "data-api.binance.vision",
    "missing_n": 0,
    "not_published": [],
    "ok": true,
    "overwritten": 0,
    "rows": 95,
-   "sec": 1.2
+   "sec": 1.1
   },
   "binance_um_btcusdt_1h": {
-   "added": 0,
+   "added": 24,
    "error": null,
    "fails_in_row": 0,
    "files": 3,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-14T23:00:00Z",
-   "missing_n": 1,
-   "not_published": [
-    "2026-10-15"
-   ],
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-15T23:00:00Z",
+   "missing_n": 0,
+   "not_published": [],
    "ok": true,
-   "rows": 48,
-   "sec": 0.7
+   "rows": 72,
+   "sec": 0.8
   },
   "binance_um_btcusdt_funding": {
    "added": 0,
@@ -194,7 +192,7 @@
    "fails_in_row": 0,
    "files": 4,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-09-30T16:00:00Z",
    "missing": [
     "2019-10",
@@ -208,19 +206,17 @@
    "sec": 0.9
   },
   "binance_um_ethusdt_1h": {
-   "added": 0,
+   "added": 24,
    "error": null,
    "fails_in_row": 0,
    "files": 3,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-14T23:00:00Z",
-   "missing_n": 1,
-   "not_published": [
-    "2026-10-15"
-   ],
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-15T23:00:00Z",
+   "missing_n": 0,
+   "not_published": [],
    "ok": true,
-   "rows": 48,
+   "rows": 72,
    "sec": 0.7
   },
   "binance_um_ethusdt_funding": {
@@ -229,7 +225,7 @@
    "fails_in_row": 0,
    "files": 2,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-09-30T16:00:00Z",
    "missing": [
     "2019-11",
@@ -239,105 +235,105 @@
    "newest_month": "2026-09",
    "ok": true,
    "rows": 0,
-   "sec": 0.4
+   "sec": 0.5
   },
   "binance_um_universe_1h": {
    "budget_left": 1154,
    "coins": {
     "1000SHIBUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2021-05-10T17:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "ADAUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2020-01-31T08:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "AVAXUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2020-09-23T07:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "BCHUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 2,
      "first_row": "2020-01-01T00:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "BNBUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2020-02-10T08:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "DOGEUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2020-07-10T09:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "DOTUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2020-08-22T07:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "LINKUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2020-01-17T08:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "LTCUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 4,
      "first_row": "2020-01-09T08:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "NEARUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 4,
      "first_row": "2020-10-15T08:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "SOLUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 4,
      "first_row": "2020-09-14T07:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "TONUSDT": {
-     "added": 0,
+     "added": 24,
      "files": 3,
      "first_row": "2024-03-01T12:00:00Z",
      "funding_added": 0,
-     "last_row": "2026-10-14T23:00:00Z",
+     "last_row": "2026-10-15T23:00:00Z",
      "pending": 0
     },
     "TRXUSDT": {
@@ -359,30 +355,30 @@
    },
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-14T23:00:00Z",
    "ok": true,
    "pending": 0,
-   "sec": 17.1
+   "sec": 18.6
   },
   "bitstamp_btcusd_1h": {
    "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 1,
-   "sec": 0.3
+   "sec": 0.7
   },
   "coinbase_btcusd_1h": {
    "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2026-09-25T15:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 349,
@@ -395,12 +391,12 @@
    "fails_in_row": 0,
    "first_row": "2016-05-18T00:00:00Z",
    "history_done": true,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 349,
-   "sec": 0.5
+   "sec": 0.6
   },
   "coinbase_solusd_1h": {
    "added": 1,
@@ -409,20 +405,20 @@
    "fails_in_row": 0,
    "first_row": "2021-06-17T16:00:00Z",
    "history_done": true,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 349,
-   "sec": 0.5
+   "sec": 0.6
   },
   "deribit_dvol_1h": {
    "added": 1,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2021-03-24T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "rows": 72,
    "sec": 0.6
@@ -431,8 +427,8 @@
    "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T07:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T08:00:00Z",
    "ok": true,
    "rows": 72,
    "sec": 0.2
@@ -441,144 +437,144 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-16T00:00:00Z",
    "ok": true,
    "rows": 3176,
-   "sec": 0.2
+   "sec": 0.3
   },
   "fred_nasdaq100_1d": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
    "first_row": "1986-01-02T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-15T00:00:00Z",
    "ok": true,
    "rows": 10278,
-   "sec": 0.7
+   "sec": 0.5
   },
   "kraken_ethusd_1h": {
    "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 720,
-   "sec": 0.0
+   "sec": 0.2
   },
   "kraken_solusd_1h": {
    "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 720,
-   "sec": 0.1
+   "sec": 0.2
   },
   "kraken_xbtusd_1h": {
    "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 720,
-   "sec": 0.0
+   "sec": 0.3
   },
   "okx_alt_swaps_1h": {
    "coins": {
     "ADA": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "AVAX": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "BCH": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "BNB": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "DOGE": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "DOT": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "LINK": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "LTC": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "NEAR": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "SHIB": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "SOL": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "TRX": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     },
     "XRP": {
      "first_row": "2026-02-27T17:00:00Z",
-     "funding_last": "2026-10-16T00:00:00Z",
+     "funding_last": "2026-10-16T08:00:00Z",
      "history_pages": 0,
-     "last_row": "2026-10-16T06:00:00Z"
+     "last_row": "2026-10-16T07:00:00Z"
     }
    },
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
-   "sec": 5.7
+   "sec": 6.0
   },
   "okx_bnbusdt_1h": {
    "added": 1,
@@ -586,8 +582,8 @@
    "fails_in_row": 0,
    "first_row": "2026-09-27T21:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
@@ -599,19 +595,19 @@
    "fails_in_row": 0,
    "first_row": "2024-12-29T15:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
    "sec": 0.2
   },
   "okx_eth_funding_8h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T00:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T08:00:00Z",
    "ok": true,
    "rows": 100,
    "sec": 0.2
@@ -622,19 +618,19 @@
    "fails_in_row": 0,
    "first_row": "2024-12-29T15:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
    "sec": 0.2
   },
   "okx_funding_8h": {
-   "added": 0,
+   "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T00:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T08:00:00Z",
    "ok": true,
    "rows": 100,
    "sec": 0.2
@@ -643,29 +639,29 @@
    "added": 1,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-16T07:17:15Z",
-   "last_row": "2026-10-16T06:00:00Z",
+   "last_ok": "2026-10-16T08:07:41Z",
+   "last_row": "2026-10-16T07:00:00Z",
    "ok": true,
    "rows": 719,
-   "sec": 0.4
+   "sec": 0.3
   },
   "yahoo_gold_1d": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2000-08-30T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-15T00:00:00Z",
    "ok": true,
    "rows": 28,
-   "sec": 0.1
+   "sec": 0.2
   },
   "yahoo_ndx_1d": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
    "first_row": "1985-10-01T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-15T00:00:00Z",
    "ok": true,
    "rows": 28,
@@ -676,12 +672,12 @@
    "error": null,
    "fails_in_row": 0,
    "first_row": "1970-01-02T00:00:00Z",
-   "last_ok": "2026-10-16T07:17:15Z",
+   "last_ok": "2026-10-16T08:07:41Z",
    "last_row": "2026-10-15T00:00:00Z",
    "ok": true,
    "rows": 28,
-   "sec": 0.2
+   "sec": 0.3
   }
  },
- "updated": "2026-10-16T07:17:15Z"
+ "updated": "2026-10-16T08:07:41Z"
 }
