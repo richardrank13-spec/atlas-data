@@ -17,7 +17,6 @@ import os
 import sys
 import time
 import urllib.error
-import urllib.parse
 import urllib.request
 import zipfile
 
@@ -137,7 +136,7 @@ def bitstamp():
 
 
 # listing dates (with a margin) below which no Coinbase candles exist
-CB_FLOOR = {"BTC-USD": None, "ETH-USD": 1462060800, "SOL-USD": 1622505600}  # 2016-05-01, 2021-06-01
+CB_FLOOR = {"BTC-USD": None, "ETH-USD": 1462060800}  # 2016-05-01
 CB_PAGES = 400  # backfill budget per product per run (300 hours per page)
 
 
@@ -247,57 +246,7 @@ def binance_spot(symbol, start_month):
             "live": live, "first_row": iso(fk) if fk else None, "last_row": iso(lk) if lk else None}
 
 
-# ---------------------------------------------------------------- traditional assets, daily (candidates, not used yet)
-DAILY = ["t", "open", "high", "low", "close", "volume"]
-
-
-def _keep_closed(rows):
-    # a daily bar dated D is stored only from D + 24h on (the US session and gold futures have closed by then)
-    return [r for r in rows if r["t"] + 86400 <= NOW]
-
-
-def yahoo_daily(symbol, name):
-    fn = path(f"tradfi/yahoo_{name}_1d.csv")
-    have = read_rows(fn, "t")
-    p1 = (max(have) - 40 * 86400) if have else 0  # range=max silently returns monthly bars; explicit periods keep daily
-    js = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?period1={p1}&period2={NOW}&interval=1d")
-    res = js["chart"]["result"][0]
-    off = int(res["meta"].get("gmtoffset", 0))
-    q = res["indicators"]["quote"][0]
-    out = []
-    for i, ts in enumerate(res.get("timestamp") or []):
-        if q["close"][i] is None:
-            continue
-        d = dt.datetime.fromtimestamp(ts + off, dt.timezone.utc).date()
-        t = int(dt.datetime(d.year, d.month, d.day, tzinfo=dt.timezone.utc).timestamp())
-        out.append({"t": t, "open": q["open"][i], "high": q["high"][i], "low": q["low"][i], "close": q["close"][i], "volume": q["volume"][i] or 0})
-    out = _keep_closed(out)
-    a, c = merge(fn, out, DAILY, "t")
-    allr = read_rows(fn, "t")
-    return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
-
-
-def fred_daily(series, name):
-    """FRED close-only series (cross-check for the Yahoo index data)."""
-    fn = path(f"tradfi/fred_{name}_1d.csv")
-    text = get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}", raw=True).decode("utf-8", "replace")
-    lines = text.strip().splitlines()
-    if not lines or "," not in lines[0]:
-        raise RuntimeError(text.strip()[:120] or "empty response")
-    out = []
-    for r in lines[1:]:
-        day, val = r.split(",")[:2]
-        if val in ("", "."):
-            continue
-        d = dt.date.fromisoformat(day)
-        t = int(dt.datetime(d.year, d.month, d.day, tzinfo=dt.timezone.utc).timestamp())
-        out.append({"t": t, "close": val})
-    out = _keep_closed(out)
-    a, c = merge(fn, out, ["t", "close"], "t")
-    allr = read_rows(fn, "t")
-    return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
-
-
+# ---------------------------------------------------------------- OKX
 def okx_candles(inst, prefix, backfill_to=None, calls=40):
     """Closed 1h candles. With backfill_to (a date), older history is paged in from the history endpoint, at most
     `calls` pages of 100 hours per run, until the stored history reaches that date."""
@@ -326,13 +275,14 @@ def okx_candles(inst, prefix, backfill_to=None, calls=40):
             "last_row": iso(max(r["open_time"] for r in out)) if out else None}
 
 
-# the wave-2 coins on OKX swaps, for the live paper journal (TON is not in it: too little history for the test)
-OKX_ALTS = ["SOL", "XRP", "DOGE", "BNB", "TRX", "ADA", "AVAX", "SHIB", "LINK", "BCH", "DOT", "NEAR", "LTC"]
+# OKX swaps besides BTC and ETH, for the live paper journal and the forward simulation. Since 2026-10-16 the platform
+# covers BTC, ETH and BNB only; the files of the twelve other wave-2 coins stay in data/okx, frozen on that day.
+OKX_ALTS = ["BNB"]
 
 
 def okx_alt_swaps():
-    """1h candles (history back to 2026-03-01, paged in over a few runs) and funding of the OKX USDT swaps of the
-    wave-2 coins. One coin failing never stops the others; the report says which failed."""
+    """1h candles (history back to 2026-03-01, paged in over a few runs) and funding of the OKX USDT swaps in OKX_ALTS.
+    One coin failing never stops the others; the report says which failed."""
     rep, bad = {}, {}
     for c in OKX_ALTS:
         inst = f"{c}-USDT-SWAP"
@@ -554,10 +504,9 @@ def binance_metrics(symbol="BTCUSDT", start=None, per_run=60):
     return {"rows": len(out), "added": a, "first_day": days[0].isoformat() if days else None, "last_day": days[-1].isoformat() if days else None, "not_published": missing[:3]}
 
 
-# crowd pulse (Atlas page) and later crowd research: positioning of the 13 other coins of the paper journal.
-# The backfill walks back from today, so the last year (the page's percentiles) is complete first.
-METRIC_ALTS = ["SOLUSDT", "XRPUSDT", "DOGEUSDT", "BNBUSDT", "TRXUSDT", "ADAUSDT", "AVAXUSDT", "1000SHIBUSDT",
-               "LINKUSDT", "BCHUSDT", "DOTUSDT", "NEARUSDT", "LTCUSDT"]
+# positioning of BNB for crowd research (BTC and ETH have their own sources). The other twelve coins collected here
+# until 2026-10-16 keep their files, frozen on that day. The backfill walks back from today.
+METRIC_ALTS = ["BNBUSDT"]
 METRIC_ALTS_START = BIN_START  # 2021-12-01, the start of the Binance metrics archive
 
 
@@ -576,9 +525,9 @@ def binance_metrics_alts():
 
 
 # ---------------------------------------------------------------- wave 2: more perpetuals
-# atlas-alerts research/2026-10-10_wave2_prereg.md fixed this list before any of its data was downloaded.
-UNIVERSE = ["BNBUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT", "TRXUSDT", "TONUSDT", "ADAUSDT", "AVAXUSDT",
-            "1000SHIBUSDT", "LINKUSDT", "BCHUSDT", "DOTUSDT", "NEARUSDT", "LTCUSDT"]
+# atlas-alerts research/2026-10-10_wave2_prereg.md fixed a 14-coin list before any of its data was downloaded. Since
+# 2026-10-16 only BNB is kept up to date (wave 4 and the platform cover BTC, ETH, BNB); the other files are frozen.
+UNIVERSE = ["BNBUSDT"]
 UNIVERSE_START = dt.date(2019, 9, 1)
 UNIVERSE_BUDGET = 1200  # archive files per run, shared by all coins; the first backfill spreads over a few runs
 
@@ -704,11 +653,105 @@ def fear_greed():
     return {"rows": len(out), "added": a, "last_row": iso(max(r["t"] for r in out)) if out else None}
 
 
+# ---------------------------------------------------------------- Hyperliquid (execution venue candidate)
+# Hyperliquid's API keeps only the newest 5000 candles of each interval (about 208 days of hours, 833 days of 4-hour
+# bars), so this archive is what keeps the older ones. Requests are POSTs to one endpoint and are rate-limited by
+# weight per IP, so every run pages in at most HL_PAGES pages per series and the first backfill spreads over runs.
+HL_INFO = "https://api.hyperliquid.xyz/info"
+HL_COINS = ["BTC", "ETH", "BNB"]
+HL_PAGES = 5
+HL_FUNDING_START = dt.date(2023, 1, 1)  # before the venue's first listings; the API answers from its first record
+HL_COLS = ["open_time", "open", "high", "low", "close", "volume", "trades"]
+
+
+def hl_post(body, timeout=30):
+    req = urllib.request.Request(HL_INFO, data=json.dumps(body).encode("utf-8"),
+                                 headers=dict(UA, **{"Content-Type": "application/json"}))
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+
+def _hl_series(fetch, start, key, step, pages):
+    """Pages forward from `start` (seconds) while a page brings rows past the last one. Stops at the current period,
+    after `pages` requests, or at the first rate-limit answer (the next run goes on). Returns (rows, requests, limited)."""
+    out, used, t = [], 0, start
+    while used < pages and t + step <= NOW:
+        try:
+            rows = fetch(t)
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                return out, used + 1, True
+            raise
+        used += 1
+        rows = [r for r in rows if r[key] >= t]
+        if not rows:
+            break
+        out += rows
+        t = max(r[key] for r in rows) + 1
+        time.sleep(1.0)
+    return out, used, False
+
+
+def hl_candles():
+    """Closed 1h and 4h candles of the Hyperliquid BTC, ETH and BNB perpetuals. One series failing never stops the
+    others; the report names it."""
+    rep, bad = {}, {}
+    for coin in HL_COINS:
+        for interval, step in (("1h", 3600), ("4h", 14400)):
+            prefix = f"hyperliquid/{coin.lower()}_perp_{interval}"
+
+            def fetch(t, coin=coin, interval=interval):
+                js = hl_post({"type": "candleSnapshot", "req": {"coin": coin, "interval": interval,
+                                                                "startTime": t * 1000, "endTime": NOW * 1000}})
+                return [{"open_time": int(r["t"]) // 1000, "open": r["o"], "high": r["h"], "low": r["l"], "close": r["c"],
+                         "volume": r["v"], "trades": r.get("n", "")} for r in js]
+            try:
+                last = last_key(prefix)
+                start = last + step if last is not None else NOW - 5000 * step
+                rows, used, limited = _hl_series(fetch, start, "open_time", step, HL_PAGES)
+                rows = [r for r in rows if r["open_time"] % step == 0 and r["open_time"] + step <= NOW - 60]
+                added = merge_yearly(prefix, rows, HL_COLS)[0] if rows else 0
+                fk, lk = first_key(prefix), last_key(prefix)
+                rep[f"{coin}_{interval}"] = {"added": added, "pages": used, "rate_limited": limited,
+                                            "first_row": iso(fk) if fk else None, "last_row": iso(lk) if lk else None}
+            except Exception as e:  # noqa: BLE001 - one series must not stop the others
+                bad[f"{coin}_{interval}"] = f"{type(e).__name__}: {e}"[:120]
+    if not rep:
+        raise RuntimeError(f"all Hyperliquid candle series failed: {bad}")
+    lasts = [v["last_row"] for k, v in rep.items() if k.endswith("_1h") and v["last_row"]]
+    return {"series": rep, "failed": bad, "last_row": min(lasts) if lasts else None}
+
+
+def hl_funding():
+    """Hourly funding of the Hyperliquid BTC, ETH and BNB perpetuals (rate per hour, premium), from the first record."""
+    rep, bad = {}, {}
+    for coin in HL_COINS:
+        fn = path(f"hyperliquid/{coin.lower()}_funding.csv")
+
+        def fetch(t, coin=coin):
+            js = hl_post({"type": "fundingHistory", "coin": coin, "startTime": t * 1000, "endTime": NOW * 1000})
+            return [{"t": int(r["time"]) // 1000, "rate": r["fundingRate"], "premium": r.get("premium", "")} for r in js]
+        try:
+            have = read_rows(fn, "t")
+            start = max(have) + 1 if have else int(dt.datetime(HL_FUNDING_START.year, HL_FUNDING_START.month,
+                                                                  HL_FUNDING_START.day, tzinfo=dt.timezone.utc).timestamp())
+            rows, used, limited = _hl_series(fetch, start, "t", 3600, HL_PAGES)
+            added = merge(fn, rows, ["t", "rate", "premium"], "t")[0] if rows else 0
+            allr = read_rows(fn, "t")
+            rep[coin] = {"added": added, "pages": used, "rate_limited": limited,
+                         "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
+        except Exception as e:  # noqa: BLE001
+            bad[coin] = f"{type(e).__name__}: {e}"[:120]
+    if not rep:
+        raise RuntimeError(f"all Hyperliquid funding series failed: {bad}")
+    lasts = [v["last_row"] for v in rep.values() if v["last_row"]]
+    return {"coins": rep, "failed": bad, "last_row": min(lasts) if lasts else None}
+
+
 # ---------------------------------------------------------------- cross-venue check
 CROSS = {  # asset: (primary prefix, [(name, prefix), ...])
     "btc": ("bitstamp/btcusd_1h", [("coinbase", "coinbase/btc-usd_1h"), ("kraken", "kraken/xbtusd_1h")]),
     "eth": ("coinbase/eth-usd_1h", [("kraken", "kraken/ethusd_1h")]),
-    "sol": ("coinbase/sol-usd_1h", [("kraken", "kraken/solusd_1h")]),
     "bnb": ("binance/bnbusdt_1h", [("okx", "okx/bnb-usdt_1h")]),
 }
 
@@ -734,7 +777,7 @@ def cross_venue(hours=48):
     btc = compare(*CROSS["btc"])
     res["bitstamp_rows"] = btc.pop("primary_rows")
     res.update(btc)  # BTC keys stay where the engine reads them
-    res["assets"] = {a: compare(*CROSS[a]) for a in ("eth", "sol", "bnb")}
+    res["assets"] = {a: compare(*CROSS[a]) for a in ("eth", "bnb")}
     return res
 
 
@@ -742,12 +785,9 @@ SOURCES = [
     ("bitstamp_btcusd_1h", bitstamp),
     ("coinbase_btcusd_1h", lambda: coinbase("BTC-USD")),
     ("coinbase_ethusd_1h", lambda: coinbase("ETH-USD")),
-    ("coinbase_solusd_1h", lambda: coinbase("SOL-USD")),
     ("kraken_xbtusd_1h", kraken),
     ("kraken_ethusd_1h", lambda: kraken("ETHUSD", "kraken/ethusd_1h")),
-    ("kraken_solusd_1h", lambda: kraken("SOLUSD", "kraken/solusd_1h")),
     ("binance_bnbusdt_1h", lambda: binance_spot("BNBUSDT", dt.date(2017, 11, 1))),
-    ("binance_paxgusdt_1h", lambda: binance_spot("PAXGUSDT", dt.date(2019, 9, 1))),
     ("okx_bnbusdt_1h", lambda: okx_candles("BNB-USDT", "okx/bnb-usdt_1h")),
     ("binance_um_btcusdt_1h", lambda: binance_um("BTCUSDT", dt.date(2019, 9, 1))),
     ("binance_um_ethusdt_1h", lambda: binance_um("ETHUSDT", dt.date(2019, 11, 1))),
@@ -765,10 +805,8 @@ SOURCES = [
     ("binance_metrics_eth_1h", lambda: binance_metrics("ETHUSDT", per_run=120)),
     ("binance_metrics_alts_1h", binance_metrics_alts),
     ("fear_greed_1d", fear_greed),
-    ("yahoo_spx_1d", lambda: yahoo_daily("^GSPC", "spx")),
-    ("yahoo_ndx_1d", lambda: yahoo_daily("^NDX", "ndx")),
-    ("yahoo_gold_1d", lambda: yahoo_daily("GC=F", "gold_futures")),
-    ("fred_nasdaq100_1d", lambda: fred_daily("NASDAQ100", "nasdaq100")),
+    ("hyperliquid_candles", hl_candles),
+    ("hyperliquid_funding", hl_funding),
     ("binance_um_universe_1h", binance_um_universe),  # last: its first backfill is the slowest
 ]
 
