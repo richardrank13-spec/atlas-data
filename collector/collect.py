@@ -275,9 +275,10 @@ def okx_candles(inst, prefix, backfill_to=None, calls=40):
             "last_row": iso(max(r["open_time"] for r in out)) if out else None}
 
 
-# OKX swaps besides BTC and ETH, for the live paper journal and the forward simulation. Since 2026-10-16 the platform
-# covers BTC, ETH and BNB only; the files of the twelve other wave-2 coins stay in data/okx, frozen on that day.
-OKX_ALTS = ["BNB"]
+# OKX swaps besides BTC and ETH, for the live paper journal and forward simulations: BNB, and since 2026-10-17 the
+# assets with 4+ years of history that the active module's research covers (SOL, LINK, LTC, ZEC, gold). The other
+# wave-2 coins' files stay in data/okx, frozen on 2026-10-16.
+OKX_ALTS = ["BNB", "SOL", "LINK", "LTC", "ZEC", "XAU"]
 
 
 def okx_alt_swaps():
@@ -525,9 +526,9 @@ def binance_metrics_alts():
 
 
 # ---------------------------------------------------------------- wave 2: more perpetuals
-# atlas-alerts research/2026-10-10_wave2_prereg.md fixed a 14-coin list before any of its data was downloaded. Since
-# 2026-10-16 only BNB is kept up to date (wave 4 and the platform cover BTC, ETH, BNB); the other files are frozen.
-UNIVERSE = ["BNBUSDT"]
+# atlas-alerts research/2026-10-10_wave2_prereg.md fixed a 14-coin list before any of its data was downloaded. Kept up
+# to date: BNB (wave 4) and, since 2026-10-17, SOL, LINK, LTC and ZEC (wave 5); the other files are frozen.
+UNIVERSE = ["BNBUSDT", "SOLUSDT", "LINKUSDT", "LTCUSDT", "ZECUSDT"]
 UNIVERSE_START = dt.date(2019, 9, 1)
 UNIVERSE_BUDGET = 1200  # archive files per run, shared by all coins; the first backfill spreads over a few runs
 
@@ -788,6 +789,7 @@ SOURCES = [
     ("kraken_xbtusd_1h", kraken),
     ("kraken_ethusd_1h", lambda: kraken("ETHUSD", "kraken/ethusd_1h")),
     ("binance_bnbusdt_1h", lambda: binance_spot("BNBUSDT", dt.date(2017, 11, 1))),
+    ("binance_paxgusdt_1h", lambda: binance_spot("PAXGUSDT", dt.date(2019, 9, 1))),   # gold history (wave 5)
     ("okx_bnbusdt_1h", lambda: okx_candles("BNB-USDT", "okx/bnb-usdt_1h")),
     ("binance_um_btcusdt_1h", lambda: binance_um("BTCUSDT", dt.date(2019, 9, 1))),
     ("binance_um_ethusdt_1h", lambda: binance_um("ETHUSDT", dt.date(2019, 11, 1))),
