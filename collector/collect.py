@@ -276,9 +276,10 @@ def okx_candles(inst, prefix, backfill_to=None, calls=40):
 
 
 # OKX swaps besides BTC and ETH, for the live paper journal and forward simulations: BNB, and since 2026-10-17 the
-# assets with 4+ years of history that the active module's research covers (SOL, LINK, LTC, ZEC, gold). The other
-# wave-2 coins' files stay in data/okx, frozen on 2026-10-16.
-OKX_ALTS = ["BNB", "SOL", "LINK", "LTC", "ZEC", "XAU"]
+# assets with 4+ years of history that the active module's research covers (SOL, LINK, LTC, ZEC, gold); since
+# 2026-10-22 also XRP, ADA, AVAX, DOT, BCH, NEAR, TRX for the paper simulation PX-1 (Liqzo research, wave 6 F1 coins).
+# The other wave-2 coins' files (DOGE, SHIB) stay in data/okx, frozen on 2026-10-16.
+OKX_ALTS = ["BNB", "SOL", "LINK", "LTC", "ZEC", "XAU", "XRP", "ADA", "AVAX", "DOT", "BCH", "NEAR", "TRX"]
 
 
 def okx_alt_swaps():
