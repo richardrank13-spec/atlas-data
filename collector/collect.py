@@ -17,6 +17,7 @@ import os
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 
@@ -244,6 +245,36 @@ def binance_spot(symbol, start_month):
     fk, lk = first_key(prefix), last_key(prefix)
     return {"rows": len(out), "added": a, "overwritten": c, "files": files, "not_published": missing[-3:], "missing_n": len(missing),
             "live": live, "first_row": iso(fk) if fk else None, "last_row": iso(lk) if lk else None}
+
+
+# ---------------------------------------------------------------- stock indices and gold, daily (Liqzo's paper simulation PX-2)
+DAILY = ["t", "open", "high", "low", "close", "volume"]
+
+
+def _keep_closed(rows):
+    # a daily bar dated D is stored only from D + 24h on (the US session and gold futures have closed by then)
+    return [r for r in rows if r["t"] + 86400 <= NOW]
+
+
+def yahoo_daily(symbol, name):
+    fn = path(f"tradfi/yahoo_{name}_1d.csv")
+    have = read_rows(fn, "t")
+    p1 = (max(have) - 40 * 86400) if have else 0  # range=max silently returns monthly bars; explicit periods keep daily
+    js = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?period1={p1}&period2={NOW}&interval=1d")
+    res = js["chart"]["result"][0]
+    off = int(res["meta"].get("gmtoffset", 0))
+    q = res["indicators"]["quote"][0]
+    out = []
+    for i, ts in enumerate(res.get("timestamp") or []):
+        if q["close"][i] is None:
+            continue
+        d = dt.datetime.fromtimestamp(ts + off, dt.timezone.utc).date()
+        t = int(dt.datetime(d.year, d.month, d.day, tzinfo=dt.timezone.utc).timestamp())
+        out.append({"t": t, "open": q["open"][i], "high": q["high"][i], "low": q["low"][i], "close": q["close"][i], "volume": q["volume"][i] or 0})
+    out = _keep_closed(out)
+    a, c = merge(fn, out, DAILY, "t")
+    allr = read_rows(fn, "t")
+    return {"rows": len(out), "added": a, "first_row": iso(min(allr)) if allr else None, "last_row": iso(max(allr)) if allr else None}
 
 
 # ---------------------------------------------------------------- OKX
@@ -808,6 +839,9 @@ SOURCES = [
     ("binance_metrics_eth_1h", lambda: binance_metrics("ETHUSDT", per_run=120)),
     ("binance_metrics_alts_1h", binance_metrics_alts),
     ("fear_greed_1d", fear_greed),
+    ("yahoo_spx_1d", lambda: yahoo_daily("^GSPC", "spx")),             # PX-2 (W8-C's index sleeves)
+    ("yahoo_ndx_1d", lambda: yahoo_daily("^NDX", "ndx")),
+    ("yahoo_gold_1d", lambda: yahoo_daily("GC=F", "gold_futures")),
     ("hyperliquid_candles", hl_candles),
     ("hyperliquid_funding", hl_funding),
     ("binance_um_universe_1h", binance_um_universe),  # last: its first backfill is the slowest

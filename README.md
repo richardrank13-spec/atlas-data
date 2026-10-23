@@ -24,6 +24,7 @@ earlier research can be reproduced. The platform's stock and pre-IPO perpetuals 
 | `data/hyperliquid/{btc,eth,bnb}_funding.csv` | Hyperliquid funding rate per hour and premium, from the first record | 1 hour | Hyperliquid info API |
 | `data/deribit/btc_funding_1h.csv`, `btc_dvol_1h.csv` | BTC-PERPETUAL funding; DVOL implied volatility from 2021-03 | 1 hour | Deribit API |
 | `data/sentiment/fear_greed_1d.csv` | Crypto Fear & Greed index | 1 day | alternative.me |
+| `data/tradfi/yahoo_{spx,ndx,gold_futures}_1d.csv` | S&P 500, NASDAQ-100, gold futures; collected again since 2026-10-23 for Liqzo's paper simulation PX-2 (frozen 2026-10-16..22) | 1 day | Yahoo Finance chart API |
 | `data/status.json` | last run, per-source health, cross-exchange price check | | collector |
 
 ## Frozen on 2026-10-16 (kept for reproducibility, no longer collected)
@@ -31,7 +32,7 @@ earlier research can be reproduced. The platform's stock and pre-IPO perpetuals 
 - `data/coinbase/sol-usd_1h_*`, `data/kraken/solusd_1h_*`
 - `data/binance/um_*` of XRP, DOGE, TRX, TON, ADA, AVAX, 1000SHIB, BCH, DOT, NEAR; `*_metrics_1h_*` of the twelve
 - `data/okx/*-usdt-swap_1h_*` and `*_usdt_swap_funding.csv` of XRP, DOGE, TRX, ADA, AVAX, SHIB, BCH, DOT, NEAR
-- `data/tradfi/` (S&P 500, NASDAQ-100, gold futures from Yahoo Finance; NASDAQ-100 from FRED)
+- `data/tradfi/fred_nasdaq100_1d.csv` (NASDAQ-100 from FRED, a cross-check)
 
 Times are Unix seconds, UTC, at the candle open (funding: the funding time). A candle is stored only after it has
 closed, and rows older than 48 hours are never rewritten.
