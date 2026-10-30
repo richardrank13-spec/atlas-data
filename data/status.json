@@ -38,7 +38,7 @@
    "fails_in_row": 0,
    "files": 1,
    "first_row": "2017-11-06T03:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "live": "data-api.binance.vision",
    "missing_n": 0,
@@ -54,11 +54,11 @@
    "fails_in_row": 0,
    "first_day": "2021-12-01",
    "last_day": "2026-10-29",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "not_published": [],
    "ok": true,
    "rows": 48,
-   "sec": 0.6
+   "sec": 1.0
   },
   "binance_metrics_alts_1h": {
    "coins": {
@@ -71,10 +71,10 @@
    "error": null,
    "failed": [],
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-29",
    "ok": true,
-   "sec": 0.7
+   "sec": 0.8
   },
   "binance_metrics_eth_1h": {
    "added": 0,
@@ -82,7 +82,7 @@
    "fails_in_row": 0,
    "first_day": "2021-12-01",
    "last_day": "2026-10-29",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "not_published": [],
    "ok": true,
    "rows": 48,
@@ -94,7 +94,7 @@
    "fails_in_row": 0,
    "files": 1,
    "first_row": "2020-08-28T12:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "live": "data-api.binance.vision",
    "missing_n": 0,
@@ -110,7 +110,7 @@
    "fails_in_row": 0,
    "files": 4,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-27T23:00:00Z",
    "missing_n": 2,
    "not_published": [
@@ -127,7 +127,7 @@
    "fails_in_row": 0,
    "files": 4,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-09-30T16:00:00Z",
    "missing": [
     "2019-10",
@@ -146,7 +146,7 @@
    "fails_in_row": 0,
    "files": 4,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-27T23:00:00Z",
    "missing_n": 2,
    "not_published": [
@@ -163,7 +163,7 @@
    "fails_in_row": 0,
    "files": 2,
    "first_row": "2020-01-01T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-09-30T16:00:00Z",
    "missing": [
     "2019-11",
@@ -173,7 +173,7 @@
    "newest_month": "2026-09",
    "ok": true,
    "rows": 0,
-   "sec": 0.6
+   "sec": 0.4
   },
   "binance_um_universe_1h": {
    "budget_left": 1177,
@@ -221,29 +221,29 @@
    },
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-27T23:00:00Z",
    "ok": true,
    "pending": 0,
-   "sec": 8.5
+   "sec": 8.0
   },
   "bitstamp_btcusd_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": null,
    "ok": true,
    "overwritten": 0,
    "rows": 0,
-   "sec": 0.7
+   "sec": 0.5
   },
   "coinbase_btcusd_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
    "first_row": "2026-09-25T15:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -257,7 +257,7 @@
    "fails_in_row": 0,
    "first_row": "2016-05-18T00:00:00Z",
    "history_done": true,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -269,37 +269,37 @@
    "error": null,
    "fails_in_row": 0,
    "first_row": "2021-03-24T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "rows": 72,
-   "sec": 0.5
+   "sec": 0.4
   },
   "deribit_funding_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T08:00:00Z",
    "ok": true,
    "rows": 72,
-   "sec": 0.5
+   "sec": 0.3
   },
   "fear_greed_1d": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T00:00:00Z",
    "ok": true,
    "rows": 3190,
-   "sec": 0.4
+   "sec": 0.3
   },
   "hyperliquid_candles": {
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "sec": 0.1,
@@ -375,16 +375,16 @@
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T08:00:00Z",
    "ok": true,
-   "sec": 0.3
+   "sec": 0.2
   },
   "kraken_ethusd_1h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -395,7 +395,7 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -486,7 +486,7 @@
    "error": null,
    "failed": {},
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "sec": 5.8
@@ -497,12 +497,12 @@
    "fails_in_row": 0,
    "first_row": "2026-09-27T21:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
-   "sec": 0.3
+   "sec": 0.4
   },
   "okx_btc_swap_1h": {
    "added": 0,
@@ -510,7 +510,7 @@
    "fails_in_row": 0,
    "first_row": "2024-12-29T15:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
@@ -521,7 +521,7 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T08:00:00Z",
    "ok": true,
    "rows": 100,
@@ -533,18 +533,18 @@
    "fails_in_row": 0,
    "first_row": "2024-12-29T15:00:00Z",
    "history_pages": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "overwritten": 0,
    "rows": 299,
-   "sec": 0.3
+   "sec": 0.2
   },
   "okx_funding_8h": {
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T08:00:00Z",
    "ok": true,
    "rows": 100,
@@ -554,7 +554,7 @@
    "added": 0,
    "error": null,
    "fails_in_row": 0,
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-30T07:00:00Z",
    "ok": true,
    "rows": 719,
@@ -565,7 +565,7 @@
    "error": null,
    "fails_in_row": 0,
    "first_row": "2000-08-30T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-29T00:00:00Z",
    "ok": true,
    "rows": 29,
@@ -576,7 +576,7 @@
    "error": null,
    "fails_in_row": 0,
    "first_row": "1985-10-01T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-29T00:00:00Z",
    "ok": true,
    "rows": 29,
@@ -587,12 +587,12 @@
    "error": null,
    "fails_in_row": 0,
    "first_row": "1970-01-02T00:00:00Z",
-   "last_ok": "2026-10-30T08:29:56Z",
+   "last_ok": "2026-10-30T08:36:12Z",
    "last_row": "2026-10-29T00:00:00Z",
    "ok": true,
    "rows": 29,
-   "sec": 0.3
+   "sec": 0.2
   }
  },
- "updated": "2026-10-30T08:29:56Z"
+ "updated": "2026-10-30T08:36:12Z"
 }
