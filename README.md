@@ -18,7 +18,7 @@ earlier research can be reproduced. The platform's stock and pre-IPO perpetuals 
 | `data/binance/{bnb,paxg}usdt_1h_YYYY.csv` | BNB/USDT spot from 2017-11; PAXG/USDT (tokenised gold) from 2019-09 | 1 hour | Binance public data archive and market-data API |
 | `data/binance/um_{btc,eth,bnb,sol,link,ltc,zec}usdt_1h_YYYY.csv`, `um_*_funding.csv` | USDⓈ-M perpetual candles with taker buy volume, and funding, from 2019-09 | 1 hour, funding 8 hours | Binance public data archive |
 | `data/binance/{btc,eth,bnb}usdt_metrics_1h_YYYY.csv` | open interest, long/short ratios, taker volume, from 2021-12 | 1 hour | Binance public data archive |
-| `data/okx/{btc,eth,bnb,sol,link,ltc,zec,xau}-usdt-swap_1h_YYYY.csv`, `*_usdt_swap_funding.csv` | OKX USDT perpetual swaps (the live paper books and the forward simulation) | 1 hour, funding 8 hours | OKX API |
+| `data/okx/{btc,eth,bnb,sol,link,ltc,zec,xau}-usdt-swap_1h_YYYY.csv`, `*_usdt_swap_funding.csv` | OKX USDT perpetual swaps (the live paper books and the forward simulation). Candles from 2025-01 for BTC and ETH and, paged in since 2026-11-11 for the research market model, for BNB, SOL, LINK and LTC; from 2026-03 for ZEC and gold | 1 hour, funding 8 hours | OKX API |
 | `data/okx/bnb-usdt_1h_YYYY.csv` | BNB spot cross-check | 1 hour | OKX API |
 | `data/okx/btc_open_interest_1h.csv` | BTC contracts open interest and volume | 1 hour | OKX API |
 | `data/hyperliquid/{btc,eth,bnb}_perp_{1h,4h}_YYYY.csv` | Hyperliquid perpetual candles with trade counts (execution venue candidate). The API keeps only the newest 5000 candles per interval, so 1h starts about 208 days and 4h about 833 days before 2026-10-16 | 1 hour, 4 hours | Hyperliquid info API |

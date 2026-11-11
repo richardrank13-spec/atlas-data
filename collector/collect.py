@@ -311,16 +311,22 @@ def okx_candles(inst, prefix, backfill_to=None, calls=40):
 # 2026-10-22 also XRP, ADA, AVAX, DOT, BCH, NEAR, TRX for the paper simulation PX-1 (Liqzo research, wave 6 F1 coins).
 # The other wave-2 coins' files (DOGE, SHIB) stay in data/okx, frozen on 2026-10-16.
 OKX_ALTS = ["BNB", "SOL", "LINK", "LTC", "ZEC", "XAU", "XRP", "ADA", "AVAX", "DOT", "BCH", "NEAR", "TRX"]
+# Since 2026-11-11 the four coins the research market model was admitted for (Liqzo research, market_model/ext_v1: the
+# corridor held on Binance hours; the next step compares it on OKX hours) keep the same depth as BTC and ETH: the model
+# reads a year of hours behind each of the 400 days it replays.
+OKX_MODEL_ALTS = {"BNB", "SOL", "LINK", "LTC"}
 
 
 def okx_alt_swaps():
-    """1h candles (history back to 2026-03-01, paged in over a few runs) and funding of the OKX USDT swaps in OKX_ALTS.
+    """1h candles and funding of the OKX USDT swaps in OKX_ALTS. History back to 2026-03-01, and to 2025-01-01 for the
+    coins in OKX_MODEL_ALTS, paged in over a few runs (40 pages of 100 hours a coin a run).
     One coin failing never stops the others; the report says which failed."""
     rep, bad = {}, {}
     for c in OKX_ALTS:
         inst = f"{c}-USDT-SWAP"
         try:
-            r = okx_candles(inst, f"okx/{c.lower()}-usdt-swap_1h", backfill_to=dt.date(2026, 3, 1), calls=40)
+            goal = dt.date(2025, 1, 1) if c in OKX_MODEL_ALTS else dt.date(2026, 3, 1)
+            r = okx_candles(inst, f"okx/{c.lower()}-usdt-swap_1h", backfill_to=goal, calls=40)
             f = okx_funding(inst, f"okx/{c.lower()}_usdt_swap_funding.csv")
             rep[c] = {"first_row": r.get("first_row"), "last_row": r.get("last_row"), "history_pages": r.get("history_pages"), "funding_last": f.get("last_row")}
         except Exception as e:  # noqa: BLE001
