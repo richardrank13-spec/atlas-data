@@ -19,7 +19,7 @@ concurrency:
 jobs:
   model:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30  # an hour takes under a minute; the first run after the cache is lost recomputes every coin's hours (about a quarter of an hour)
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,6 +28,10 @@ jobs:
             model
             data/okx/btc-usdt-swap_1h_*.csv
             data/okx/eth-usdt-swap_1h_*.csv
+            data/okx/bnb-usdt-swap_1h_*.csv
+            data/okx/sol-usdt-swap_1h_*.csv
+            data/okx/link-usdt-swap_1h_*.csv
+            data/okx/ltc-usdt-swap_1h_*.csv
           sparse-checkout-cone-mode: false
       - name: Is there a closed hour without a snapshot?
         id: due
@@ -51,13 +55,13 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: model/requirements.txt
-      - name: Raw forecasts of earlier hours (saved once a day; without them the run recomputes 400 days, about two minutes)
+      - name: Raw forecasts of earlier hours, one file per coin (saved once a day; without them the run recomputes them all)
         if: steps.due.outputs.due == 'yes'
         uses: actions/cache@v4
         with:
-          path: .model-cache/raw.csv.gz
-          key: model-raw-${{ steps.due.outputs.day }}
-          restore-keys: model-raw-
+          path: .model-cache
+          key: model-raws-${{ steps.due.outputs.day }}
+          restore-keys: model-raws-
       - name: The snapshot
         if: steps.due.outputs.due == 'yes'
         run: |

@@ -27,7 +27,7 @@ earlier research can be reproduced. The platform's stock and pre-IPO perpetuals 
 | `data/sentiment/fear_greed_1d.csv` | Crypto Fear & Greed index | 1 day | alternative.me |
 | `data/tradfi/yahoo_{spx,ndx,gold_futures}_1d.csv` | S&P 500, NASDAQ-100, gold futures; collected again since 2026-10-23 for Liqzo's paper simulation PX-2 (frozen 2026-10-16..22) | 1 day | Yahoo Finance chart API |
 | `data/status.json` | last run, per-source health, cross-exchange price check | | collector |
-| `model/latest.json`, `model/log/YYYY-MM.csv` | the research market model's corridor and scenarios for BTC and ETH, and the log of what was published | 1 hour | workflow `model`, from `data/okx/{btc,eth}-usdt-swap_1h_*` |
+| `model/latest.json`, `model/log/YYYY-MM.csv` | the research market model's corridor and scenarios for BTC and ETH and the coins admitted after them (`model/README.md`), and the log of what was published | 1 hour | workflow `model`, from `data/okx/{btc,eth,bnb,sol,link,ltc}-usdt-swap_1h_*` |
 
 ## Frozen on 2026-10-16 (kept for reproducibility, no longer collected)
 
