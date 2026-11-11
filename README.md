@@ -1,7 +1,8 @@
 # atlas-data
 
 Public market data for Liqzo and its research, collected by GitHub Actions twice an hour.
-Only raw exchange data lives here; no signals, no accounts, no keys.
+Raw exchange data and, since 2026-11-11, the hourly snapshot of Liqzo's research market model (`model/`, see
+[model/README.md](model/README.md)): ranges and scenarios for study, not a signal. No accounts, no keys.
 
 Kept up to date: the assets Liqzo trades or researches: BTC, ETH, BNB, and since 2026-10-17 SOL, LINK, LTC, ZEC and
 gold (PAXG spot history, OKX XAU swap). Files of other assets stay here unchanged (frozen on 2026-10-16) so that
@@ -26,6 +27,7 @@ earlier research can be reproduced. The platform's stock and pre-IPO perpetuals 
 | `data/sentiment/fear_greed_1d.csv` | Crypto Fear & Greed index | 1 day | alternative.me |
 | `data/tradfi/yahoo_{spx,ndx,gold_futures}_1d.csv` | S&P 500, NASDAQ-100, gold futures; collected again since 2026-10-23 for Liqzo's paper simulation PX-2 (frozen 2026-10-16..22) | 1 day | Yahoo Finance chart API |
 | `data/status.json` | last run, per-source health, cross-exchange price check | | collector |
+| `model/latest.json`, `model/log/YYYY-MM.csv` | the research market model's corridor and scenarios for BTC and ETH, and the log of what was published | 1 hour | workflow `model`, from `data/okx/{btc,eth}-usdt-swap_1h_*` |
 
 ## Frozen on 2026-10-16 (kept for reproducibility, no longer collected)
 

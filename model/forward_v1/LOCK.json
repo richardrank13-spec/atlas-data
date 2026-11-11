@@ -1,0 +1,40 @@
+{
+ "candidate": "corridor_c4_sh_v1",
+ "locked_at_utc": "2026-11-11T06:38:01Z",
+ "first_origin_utc": "2026-11-12T00:00:00Z",
+ "last_origin_utc": "2027-05-30T23:00:00Z",
+ "interim_after_utc": "2027-02-19T23:00:00Z",
+ "hashes": {
+  "PREREG.md": "833c4322f6354712aa2f228c7fcd2b3a23707790c3de95967d9057bb83511b14",
+  "corridor.py": "fe7244a20abf6fd4ef2ef0232c78e9503e96cc69eb8b098af573e2e13b13617c",
+  "engine/incumbent_engine.py": "a859992ade32237ba7c75d0892e524657964470dfa5857924194492cbadcebb3",
+  "engine/market.py": "8eaba4b9e9426c428ddc61a5ed93a107ce296d2b3797ccd88a28336a967c2a1d",
+  "history/c4_binance_stretch_2025.csv.gz": "c1e8dd4eccfbc93841089dd319b4dde8ca45bb1e625bc089e50391eeaa649f6a"
+ },
+ "engine_matches_tournament_run_lock": true,
+ "environment": {
+  "python": "3.12.3",
+  "numpy": "2.3.5",
+  "pandas": "2.2.3",
+  "also_bit_identical_under": {
+   "python": "3.13.18",
+   "numpy": "2.5.3",
+   "pandas": "3.0.5"
+  }
+ },
+ "data": {
+  "repository": "richardrank13-spec/atlas-data",
+  "okx_files": "data/okx/{btc,eth}-usdt-swap_1h_*.csv",
+  "commit_at_lock": "44fa1c1ba0b7c145f4161802f6aff8c3c6cf6e96",
+  "blobs_at_lock": {
+   "data/okx/btc-usdt-swap_1h_2024.csv": "6d4e73349d4da35d2e776d4207d89cba3bb8bbde",
+   "data/okx/btc-usdt-swap_1h_2025.csv": "cf3b57e1489c8919847fce816e297cf3e9527228",
+   "data/okx/btc-usdt-swap_1h_2026.csv": "37598576f998dce218cb0167aabba47d41418647",
+   "data/okx/eth-usdt-swap_1h_2024.csv": "6f8a7a369f161b93b42c8c97f14be9c672005549",
+   "data/okx/eth-usdt-swap_1h_2025.csv": "f0645eb99b9e3bf8b36386f6d4f39f9872d0b8d3",
+   "data/okx/eth-usdt-swap_1h_2026.csv": "922657ff4043480bdf4b4d2c46d2fe9693af2415"
+  }
+ },
+ "owner_decision": "2026-11-11 08:12 Europe/Kyiv, option a: the KPI of market models is corridor accuracy; forward rules recorded; nothing built in the product",
+ "status": "RESEARCH ONLY, NO_TRADE, execution_allowed=false"
+}
